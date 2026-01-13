@@ -28,7 +28,7 @@ exports.getReportClosedByAgent = async(req,res)=>{
         const allReport = await Lead.find();
         const closedReport = allReport.filter(r=> r.status ==="Closed");
         const reportClosedByAgent = closedReport.reduce((acc,curr)=>{
-            const agent = curr.salesAgent;
+            const agent = curr.salesAgent?.toString() || "unassigned";
             if(!acc[agent]) acc[agent]= [];
             acc[agent].push(curr);
             return acc;
