@@ -53,3 +53,23 @@ exports.getAgents = async(req,res)=>{
         res.status (500).json({error: "Could not fetch the agents."});
     }
 }
+
+exports.deleteAgent = async (req, res) => {
+    try {
+        const agentId = req.params.id;
+
+        const deletedAgent = await SalesAgent.findByIdAndDelete(agentId);
+
+        if (!deletedAgent) {
+            return res.status(404).json({ error: "Sales agent not found." });
+        }
+
+        res.status(200).json({
+            message: "Sales agent deleted successfully.",
+            deletedAgent
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: "Failed to delete sales agent." });
+    }
+};

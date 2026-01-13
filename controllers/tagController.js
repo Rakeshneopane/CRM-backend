@@ -35,3 +35,23 @@ exports.getTags = async(req,res)=>{
         res.status(500).json({error: "Failed to fetch the tags from Database."})
     }
 }
+
+exports.deleteTag = async (req, res) => {
+    try {
+        const tagId = req.params.id;
+
+        const deletedTag = await Tags.findByIdAndDelete(tagId);
+
+        if (!deletedTag) {
+            return res.status(404).json({ error: "Tag not found." });
+        }
+
+        res.status(200).json({
+            message: "Tag deleted successfully.",
+            deletedTag
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: "Failed to delete tag." });
+    }
+};

@@ -115,18 +115,33 @@ const deleteLeadById = async(leadId)=>{
     }
 }
 
-exports.deleteLead = async(req,res)=>{
+exports.deleteLead = async (req, res) => {
     try {
         const leadId = req.params.id;
-        const deletedLead = await deleteLeadById(leadId);
-        if(deletedLead) {
-            return res.status(200).json({ message: "Lead deleted successfully.", deleted: deletedLead});
+
+        const deletedLead = await Lead.findByIdAndDelete(leadId);
+
+        if (!deletedLead) {
+            return res.status(404).json({
+                error: "Lead with ID not found."
+            });
         }
-        res.status(404).json({error: "Lead with ID not found."})
+
+        // Cascade delete comments ONLY if lead existed
+        await Comment.deleteMany({ lead: leadId });
+
+        res.status(200).json({
+            message: "Lead deleted successfully.",
+            deleted: deletedLead
+        });
+
     } catch (error) {
-        res.status(500).json({error: "Failed to fetch the Lead to delete"})
+        res.status(500).json({
+            error: "Failed to delete the lead."
+        });
     }
-}
+};
+
 
 const addComment = async(commentBody) => {
     try {
@@ -185,3 +200,32 @@ exports.getComments =  async( req, res)=>{
         res.status(500).json({error: "Failed to fetch the comments"})
     }
 }
+
+exports.deleteComment = async (req, res) => {
+    try {
+        const { leadId, commentId } = req.params;
+
+        // (Optional but recommended) check lead exists
+        const lead = await Lead.findById(leadId);
+        if (!lead) {
+            return res.status(404).json({ error: "Lead not found." });
+        }
+
+        const deletedComment = await Comment.findOneAndDelete({
+            _id: commentId,
+            lead: leadId
+        });
+
+        if (!deletedComment) {
+            return res.status(404).json({ error: "Comment not found." });
+        }
+
+        res.status(200).json({
+            message: "Comment deleted successfully.",
+            deletedComment
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: "Failed to delete comment." });
+    }
+};
