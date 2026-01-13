@@ -24,6 +24,8 @@ app.use("/api", agentRoutes);
 app.use("/api", reportRoutes);
 
 
-app.listen(PORT, ()=>{
-    console.log("Listening to port", PORT);
-})
+// app.listen(PORT, ()=>{
+//     console.log("Listening to port", PORT);
+// })
+
+module.exports = app;
