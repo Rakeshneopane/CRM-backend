@@ -35,9 +35,8 @@ Create a `.env` file in the root directory and add:
 ```env
 PORT=3000
 MONGO=your_mongodb_connection_string
-
+```
 ---
-
 ## Getting Started
 
 **Clone the repository**
