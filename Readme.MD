@@ -76,5 +76,5 @@ Example:
 ```
 **Verify Server**
 
-GET /
+GET / <br>
 Response : Anvaya CRM API is working
