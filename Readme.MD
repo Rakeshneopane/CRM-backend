@@ -41,32 +41,39 @@ MONGO=your_mongodb_connection_string
 
 **Clone the repository**
 
-git clone "https://github.com/Rakeshneopane/CRM-backend.git"
+``` 
+git clone https://github.com/Rakeshneopane/CRM-backend.git 
+```
 
 **Install Dependency**
 
+```
 npm install
+```
 
 **Run the server**
-
+```
 npm run dev
+```
 
 **API available at**
-
+```
 http://localhost:3000
+```
 
 ## API
 
 **API base url**
-
+```
 /api
-
+```
 Example:
+```
 /api/tags
 /api/leads
 /api/agents
 /api/reports
-
+```
 **Verify Server**
 
 GET /
